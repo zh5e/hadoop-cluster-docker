@@ -1,5 +1,16 @@
 二次开发，改为centos6.8系统
-TODO: 跨主机部署
+
+# TODO:
+```
+- hdfs数据卷映射到主机
+- 全一键部署
+- 跨主机部署
+```
+
+# 问题
+- 在cenos6.8版本上ssh免密码登录失败，需要手动配置
+
+
 
 # create hadoop network
 
