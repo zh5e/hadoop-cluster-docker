@@ -9,11 +9,12 @@ RUN yum update -y
 RUN yum install -y openssh-server
 RUN yum install -y openssh-clients
 RUN yum install -y java-1.8.0-openjdk
+RUN yum install -y vim
 RUN yum install -y wget
 RUN yum install -y which
 
 # install hadoop 2.7.3
-COPY hadoop-2.7.3.tar.gz .
+COPY hadoop-2.7.3.tar.gz ./hadoop-2.7.3.tar.gz
 RUN tar -xzvf hadoop-2.7.3.tar.gz && \
     mv hadoop-2.7.3 /usr/local/hadoop && \
     rm hadoop-2.7.3.tar.gz
@@ -51,5 +52,5 @@ RUN chmod +x ~/start-hadoop.sh && \
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
 
-CMD [ "sh", "-c", "service sshd start; bash"]
+CMD [ "sh", "-c", "service sshd start; eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa; bash"]
 
