@@ -1,20 +1,25 @@
-FROM ubuntu:14.04
+FROM centos:6.8
 
-MAINTAINER KiwenLau <kiwenlau@gmail.com>
+MAINTAINER zhjiee <zhjie@live.com>
 
 WORKDIR /root
 
 # install openssh-server, openjdk and wget
-RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget
+RUN yum update -y
+RUN yum install -y openssh-server
+RUN yum install -y openssh-clients
+RUN yum install -y java-1.8.0-openjdk
+RUN yum install -y wget
+RUN yum install -y which
 
-# install hadoop 2.7.2
-RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
-    tar -xzvf hadoop-2.7.2.tar.gz && \
-    mv hadoop-2.7.2 /usr/local/hadoop && \
-    rm hadoop-2.7.2.tar.gz
+# install hadoop 2.7.3
+COPY hadoop-2.7.3.tar.gz .
+RUN tar -xzvf hadoop-2.7.3.tar.gz && \
+    mv hadoop-2.7.3 /usr/local/hadoop && \
+    rm hadoop-2.7.3.tar.gz
 
 # set environment variable
-ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 
+ENV JAVA_HOME=/usr/lib/jvm/jre
 ENV HADOOP_HOME=/usr/local/hadoop 
 ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin 
 
@@ -46,5 +51,5 @@ RUN chmod +x ~/start-hadoop.sh && \
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
 
-CMD [ "sh", "-c", "service ssh start; bash"]
+CMD [ "sh", "-c", "service sshd start; bash"]
 
