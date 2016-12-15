@@ -1,17 +1,13 @@
 FROM centos:6.8
 
-MAINTAINER zhjiee <zhjie@live.com>
+MAINTAINER zh5e <zhjie@live.com>
 
 WORKDIR /root
 
 # install openssh-server, openjdk and wget
-RUN yum update -y
-RUN yum install -y openssh-server
-RUN yum install -y openssh-clients
-RUN yum install -y java-1.8.0-openjdk
-RUN yum install -y vim
-RUN yum install -y wget
-RUN yum install -y which
+RUN yum update -y  && yum install -y \
+    openssh-server openssh-clients \
+    java-1.8.0-openjdk vim wget which
 
 # install hadoop 2.7.3
 COPY hadoop-2.7.3.tar.gz ./hadoop-2.7.3.tar.gz

@@ -16,7 +16,7 @@ docker run -itd \
     --name hadoop-master \
     --hostname hadoop-master \
     -v ${DATA_PATH}"/namenode":/root/hdfs/namenode \
-    zhjiee/hadoop:1.0 &> /dev/null
+    zh5e/hadoop:1.0 &> /dev/null
 
 
 # start hadoop slave container
@@ -31,7 +31,7 @@ do
 	        --name hadoop-slave${i} \
 	        --hostname hadoop-slave${i} \
             -v ${DATA_PATH}"/datanode${i}":/root/hdfs/datanode \
-	        zhjiee/hadoop:1.0 &> /dev/null
+	        zh5e/hadoop:1.0 &> /dev/null
 	i=$(( $i + 1 ))
 done
 

@@ -8,6 +8,6 @@ if [ ! -e "./hadoop-2.7.3.tar.gz" ]; then
 fi
 
 echo -e "\nbuild docker hadoop image\n"
-sudo docker build -t zhjiee/hadoop:1.0 .
+sudo docker build -t zh5e/hadoop:1.0 .
 
 echo ""
