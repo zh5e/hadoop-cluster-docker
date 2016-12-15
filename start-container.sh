@@ -6,11 +6,20 @@ N=${1:-3}
 DATA_PATH=~/project/hdfs
 
 
+NETWORK="bridge"
+docker network inspect hadoop
+if [ $? != 0 ];then
+    docker network create --driver=bridge hadoop
+    if [ $? == 0 ]; then
+        NETWORK="hadoop"
+    fi
+fi
+
 # start hadoop master container
 docker rm -f hadoop-master &> /dev/null
 echo "start hadoop-master container..."
 docker run -itd \
-    --net=hadoop \
+    --net=${NETWORK} \
     -p 50070:50070 \
     -p 8088:8088 \
     --name hadoop-master \
@@ -27,7 +36,7 @@ do
 	echo "start hadoop-slave$i container..."
 
 	docker run -itd \
-            --net=hadoop \
+            --net=${NETWORK} \
 	        --name hadoop-slave${i} \
 	        --hostname hadoop-slave${i} \
             -v ${DATA_PATH}"/datanode${i}":/root/hdfs/datanode \
