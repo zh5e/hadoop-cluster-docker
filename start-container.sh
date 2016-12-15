@@ -13,6 +13,8 @@ if [ $? != 0 ];then
     if [ $? == 0 ]; then
         NETWORK="hadoop"
     fi
+else
+    NETWORK="hadoop"
 fi
 
 # start hadoop master container
