@@ -3,7 +3,8 @@
 # the default node number is 3
 N=${1:-3}
 
-DATA_PATH=~/workproc/data/hdfs
+DATA_PATH=~/workproc/data/hdfs_DockData
+hadoop_master="hadoop-master"
 
 
 NETWORK="bridge"
@@ -24,8 +25,8 @@ docker run -itd \
     --net=${NETWORK} \
     -p 50070:50070 \
     -p 8088:8088 \
-    --name hadoop-master \
-    --hostname hadoop-master \
+    --name ${hadoop_master} \
+    --hostname ${hadoop_master} \
     -v ${DATA_PATH}"/namenode":/root/hdfs/namenode \
     zh5e/hadoop:1.0 &> /dev/null
 
@@ -34,15 +35,16 @@ docker run -itd \
 i=1
 while [ $i -lt $N ]
 do
-	docker rm -f hadoop-slave$i &> /dev/null
+	slave_name="hadoop-slave"${i}
+	docker rm -f ${slave_name} &> /dev/null
 	echo "start hadoop-slave$i container..."
 
-	docker run -itd \
-            --net=${NETWORK} \
-	        --name hadoop-slave${i} \
-	        --hostname hadoop-slave${i} \
-            -v ${DATA_PATH}"/datanode${i}":/root/hdfs/datanode \
-	        zh5e/hadoop:1.0 &> /dev/null
+    docker run -itd \
+        --net=${NETWORK} \
+	    --name ${slave_name} \
+	    --hostname ${slave_name} \
+        -v ${DATA_PATH}"/datanode${i}":/root/hdfs/datanode \
+	    zh5e/hadoop:1.0 &> /dev/null
 	i=$(( $i + 1 ))
 done
 
