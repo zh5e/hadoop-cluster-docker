@@ -3,7 +3,7 @@
 # the default node number is 3
 N=${1:-3}
 
-DATA_PATH=~/project/hdfs
+DATA_PATH=~/workproc/data/hdfs
 
 
 NETWORK="bridge"
